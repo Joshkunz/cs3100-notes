@@ -1,0 +1,85 @@
+\documentclass[10pt,landscape]{article}
+\usepackage[landscape]{geometry}
+\usepackage{multicol}
+\usepackage{lipsum}
+
+\usepackage{mathtools}
+
+% Make the margins tight
+\geometry{top=1cm, right=1cm, bottom=1cm, left=1cm}
+
+% remove headers and footers
+\pagestyle{empty}
+
+% Make paragraph splits smaller
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5ex}
+
+% Remove section numbers
+\setcounter{secnumdepth}{0}
+
+\newcommand{\spto}{%
+    \;\to\;%
+}
+
+\newcommand{\subheading}[1]{%
+    \textbf{#1} \vspace{3pt} \\%
+}
+
+\begin{document}
+\begin{multicols*}{3}
+
+\begin{center}
+    \Large CS3100 Final Note Sheet
+\end{center}
+
+\section{Notation}
+\begin{tabular}{rp{0.79\linewidth}}
+$L^R$ & The reversal of language $L$. \\
+$L^*$ & The Kleene-Star of $L$. \\
+$AB$ & The concatenation of language $A$ and $B$. \\
+$h(L)$ & A homomorphism (a function that maps every input to 
+         a single output) of $L$. \\
+$A - B$ & Set difference of $A$ and $B$. $A / B$ is the same thing. \\
+\end{tabular}
+
+\section{Closures}
+\subsection{Regular Languages}
+Where $R$ is a regular language, $L$ is `not regular', and $?$ is Unknown.
+
+\begin{tabular}{ll}
+\textbf{Closed:} & \textbf{Unclosed:} \\
+$\overline{R} \spto R$ & $R \cap L \spto ?$ \\
+$R^* \spto R$ & $R \cup L \spto ?$\\
+$R^R \spto R$ & $L \cup L \spto ?$\\
+$RR \spto R$ \\
+$h(R) \spto R$ \\
+$R \cup R \spto R$ \\
+$R \cap R \spto R$ \\
+$R - R \spto R$
+\end{tabular}
+
+\subsection{Context Free Languages}
+Where $C$ is a context-free language, $R$ is a regular language, and $?$ is
+an Unknown language.
+
+Closed:\\
+\begin{tabular}{l}
+$C^R \spto C$ \\
+$C^* \spto C$ \\
+$CC \spto C$ \\
+$C \cup C \spto C$ \\
+$C \cap R \spto C$ \\
+$C \cup R \spto R$ \\
+$h(C) \spto C$ \\
+\end{tabular}
+
+Unclosed:\\
+\begin{tabular}{l}
+$\overline{C} \spto ?$ \\
+$C \cap C \spto ?$ \\
+$C - C \spto ?$
+\end{tabular}
+
+\end{multicols*}
+\end{document}
