@@ -1,7 +1,6 @@
 *.out
 *.aux
 *.log
-*.pdf
 
 *.swp
 *.swo
