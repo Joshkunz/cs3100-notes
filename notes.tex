@@ -62,39 +62,6 @@
 % temp length variable
 \newlength{\templength}
 
-%% TODO
-% Regular Languages
-% - DFA formalism
-% - Talk about NFA/DFA conversion
-% - NFA/DFA closures
-%   e.g. answer 'how do I reverse an NFA
-% - Pumping lemma shortcuts
-% -! DFA minimization
-% - DFA to RE-conversion
-%
-% Context-Free languages:
-% - CFL formalism
-% - RL and LL to NFA/DFA conversion
-%   - RL conversion via reversal closures
-% - Shortcuts for solving pumping lemmas
-% - Chompsky Normal form
-% - CFG -> PDA conversion 
-% 
-% Cardinality
-% (mostly done) Schroder-Bernstein theorem
-% - Cardinality using a paring function.
-%
-% Turing Machines
-% - TM formalism
-% - How to make a Turing machine 
-% - DTM / NDTMs
-% - Turing Machine terminology (acceptance, halting, rejection, deciders)
-%
-% NP-Completeness
-% - Definitions of P, NP, NP-complete, and NP-hard.
-% - Talk about Turing verifiers (For showing L is in NP)
-% - Talk about how to prove a language is NP-complete
-
 \begin{document}
 \begin{multicols*}{3}
 
@@ -122,6 +89,14 @@ yields $y_1, \ldots, y_n$ as outputs.
     \includegraphics[width=0.6\linewidth]{images/chomsky-hierarchy}
 \end{center}
 
+% Regular Languages
+% - DFA formalism
+% - Talk about NFA/DFA conversion
+% - NFA/DFA closures
+%   e.g. answer 'how do I reverse an NFA
+% - Pumping lemma shortcuts
+% -! DFA minimization
+% - DFA to RE-conversion
 \section{Regular Languages}
 
 A regular language is any language that can be recognized with a DFA.
@@ -160,6 +135,13 @@ $RR \spto R$           & $R \spbackslash R \spto R$ & \\
                           & \land \forall i \geq 0: xy^iz \in L
 \end{align*}
 
+% Context-Free languages:
+% - CFL formalism
+% - RL and LL to NFA/DFA conversion
+%   - RL conversion via reversal closures
+% - Shortcuts for solving pumping lemmas
+% - Chompsky Normal form
+% - CFG -> PDA conversion 
 \section{Context Free Languages}
 
 \subsection{Closures}
@@ -221,6 +203,9 @@ Is complete, it generates all possible strings in the language, but not
 consistent because it generates many strings that are, in-fact, outside of
 the language.
 
+% Cardinality
+% (mostly done) Schroder-Bernstein theorem
+% - Cardinality using a paring function.
 \section{Cardinality}
 \subsection{Schr\"{o}der-Bernstein Theorem}
 The Schr\"{o}der-Bernstein theorem states that, for any two sets $A$ and $B$
@@ -230,14 +215,20 @@ Note that the injective function doesn't require every item of $A$ to map
 to every item of $B$, only that every item of $A$ maps to \textit{an} item
 of $B$ (and vice versa).
 
+% Turing Machines
+% - TM formalism
+% - How to make a Turing machine 
+% - DTM / NDTMs
+% - Turing Machine terminology (acceptance, halting, rejection, deciders)
 \section{Turing Machines}
 \subsection{Terminology and Notation}
-\begin{tabular}{rp{0.79\linewidth}}
+\begin{tabular}{rp{0.71\linewidth}}
 $\langle M \rangle$ & String representation of Turing machine $M$. \\
 halting & When a machine stops execution. \\
 acceptance & When a machine halts in a final state. \\
 rejection & When a machine halts and is not in a final state. \\
-
+decider & A decider is a Turing machine that defines a language
+          of Turing machines that conform to a yes or no question. \\
 \end{tabular}
 
 \section{Decidability}
@@ -300,6 +291,10 @@ undecidable.
         \mathcal{P}(Lang(M))}
 \]
 
+% NP-Completeness
+% - Definitions of P, NP, NP-complete, and NP-hard.
+% - Talk about Turing verifiers (For showing L is in NP)
+% - Talk about how to prove a language is NP-complete
 \section{NP-Completeness}
 \subsection{Problem Classes}
 \begin{description}
