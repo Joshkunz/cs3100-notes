@@ -50,7 +50,7 @@
 % - NFA/DFA closures even under closures
 % - Pumping lemma shortcuts
 %   e.g. answer 'how do I reverse an NFA
-% - DFA minimization
+% -! DFA minimization
 % - DFA to RE-conversion
 %
 % Context-Free languages:
@@ -72,11 +72,6 @@
 % - DTM / NDTMs
 % - Turing Machine terminology (acceptance, halting, rejection, deciders)
 %
-% Undecidability
-% - First-principals proof of halting problem
-% - Mapping reductions
-% - Rice's Theorem
-%
 % NP-Completeness
 % - Definitions of P, NP, NP-complete, and NP-hard.
 % - Talk about Turing verifiers (For showing L is in NP)
@@ -97,8 +92,13 @@ $L^*$ & The Kleene-Star of $L$. \\
 $AB$ & The concatenation of language $A$ and $B$. \\
 $h(L)$ & A homomorphism (a function that maps every input to 
          a unique output) of $L$. \\
-$A \spbackslash B$ & Set difference of $A$ and $B$. $A - B$ is the same thing. \\
+$A \spbackslash B$ & Set difference of $A$ and $B$. 
+                     $A - B$ is the same thing. \\
+$\langle M \rangle$ & String representation of Turing machine $M$. \\
 \end{tabular}
+$f : x_1, x_2, \ldots, x_n \to y_1, y_2, \ldots, y_n$ denotes
+a function $f$ that when given $x_1, \ldots, x_n$ as inputs
+yields $y_1, \ldots, y_n$ as outputs.
 
 \section{Chomsky Hierarchy}
 \begin{center}
@@ -107,6 +107,19 @@ $A \spbackslash B$ & Set difference of $A$ and $B$. $A - B$ is the same thing. \
 
 \section{Regular Languages}
 
+A regular language is any language that can be recognized with a DFA.
+Formally a DFA is a tuple $(Q,\Sigma,\delta,q_0,F)$. Where:
+
+\begin{tabular}{rp{0.79\linewidth}}
+$Q$             & A finite, non-empty set of states. \\
+$\Sigma$        & A finite, non-empty alphabet. \\
+$\delta$        & A function ($\delta : Q \times \Sigma \to Q$) that maps
+                  a state, and an input in $\Sigma$ to a new state. \\
+$q_0$           & A state in $Q$ that DFA starts execution from. \\
+$F \subseteq Q$ & A finite, possibly empty, set of accepting states.
+\end{tabular}
+
+\columnbreak
 \subsection{Closures}
 Where $R$ is a regular language, $L$ is `not regular', and $?$ is Unknown.
 
@@ -133,7 +146,6 @@ $RR \spto R$           & $R \spbackslash R \spto R$ & \\
 
 \section{Context Free Languages}
 
-\columnbreak
 \subsection{Closures}
 Where $C$ is a context-free language, $R$ is a regular language, and $?$ is
 an Unknown language.
@@ -193,8 +205,74 @@ Is complete, it generates all possible strings in the language, but not
 consistent because it generates many strings that are, in-fact, outside of
 the language.
 
-\subsection{RL and LL Grammar Conversion}
+\section{Cardinality}
+\subsection{Schr\"{o}der-Bernstein Theorem}
+The Schr\"{o}der-Bernstein theorem states that, for any two sets $A$ and $B$
+if there exists an \textit{injective} function from $A \to B$, and
+there exits an injective function from $B \to A$, then $|A| = |B|$.
+Note that the injective function doesn't require every item of $A$ to map
+to every item of $B$, only that every item of $A$ maps to \textit{an} item
+of $B$ (and vice versa).
 
+\section{Decidability}
+\subsection{Halting Problem}
+The halting problem states building a Turing machine $P$ that can detect
+whether any other Turing machine will halt is impossible. The proof is as
+follows:
+
+Assume that we have a Turing machine $P$, that when given a Turing machine
+$M$ and string $w$ as input ($\langle M, w \rangle$), $P$ will (in a finite
+computation time) accept in the case that $M$ halts on input 
+$w$, or reject in the case that $M$ loops on input $w$. We can then
+define a new Turing machine $Q$ that takes a single Turing machine $M$ 
+as input. $Q$ will then ask $P$ whether machine $M$ halts when given
+itself as input (does $P(\langle M, M \rangle)$ halt?). If $P$ 
+accepts (says that $M$ halts) the $Q$ will loop. If $P$ rejects 
+(says $M$ will loop) then $Q$ halts. Now, we can supply $Q$ as input
+to machine $Q$. $Q$ will then run $P(\langle Q, Q \rangle)$. If $P$
+accepts, then $Q$ will begin to loop, but $P$ said that $Q$ would
+halt. This is a contraction, a general $P$ decider for the halting problem
+cannot exist.
+
+\subsection{Mapping Reduction}
+A mapping reduction between $A \subseteq \Sigma^*$ and 
+$B \subseteq \Sigma^*$ is a function $f : \Sigma^* \to \Sigma^*$ if
+$\forall x \in \Sigma^*, x \in A \Leftrightarrow f(x) \in B$. More plainly,
+a function $f$ such that I can pick any $x$ in $A$, and $f(x)$ will also
+be in $B$. The ``mapping reduction from $A$ to $B$'' is typically denoted
+as $A \leq_m B$. A mapping reduction in polynomial time is denoted
+$A \leq_p B$.
+
+The general steps for a mapping reduction $A \leq_m B$ are as follows:
+\begin{enumerate}
+    \item $A$ is designated the ``known undecidable'' language.
+    \item $B$ is designated the ``unknown'' language.
+    \item Create a function $f$ that maps all elements of $A$ into $B$.
+\end{enumerate}
+
+To form $f$ you usually assume the decider for $B$ ($D_B$), then you construct
+a machine $M$ that uses to decider $D_B$ to become a decider for $A$ ($D_A$).
+For example, we can map $A_{TM}$ onto $Halt_{TM}$ using the following method:
+
+Assume that a decider $R$ for $A_{TM}$ exists. We will now construct
+a decider $S$ for $Halt_{TM}$ from $R$. $S$ has two inputs a machine $M$ and
+an input string $w$. First, $S$ will run decider $R$ on $\langle M, w$,
+if $R$ accepts, then $S$ accepts. If $R$ rejects, then $S$ accepts. We
+now have a decider for $Halt_{TM}$ which is undecidable, a decider for
+$A_{TM}$ cannot exist.
+
+\subsection{Rice's Theorem}
+``Every non-trivial partitioning of the space of Turing machine 
+codes based on the languages recognized by these Turing machines 
+is undecidable.''
+
+More formally, given a property $\mathcal{P}$, where $\mathcal{P}$ is
+non-trivial (not $\emptyset$ or $\Sigma^*$) the language:
+\[
+    {\langle M \rangle | M \text{ is a Turing machine and } 
+        \mathcal{P}(Lang(M))}
+\]
+Is undecidable.
 
 \end{multicols*}
 \end{document}
