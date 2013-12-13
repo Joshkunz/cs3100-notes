@@ -29,6 +29,25 @@
                               {-1.3ex}{0.7ex}{\normalfont\small\bfseries}}
 \makeatother
 
+% Tighten-Up lists
+\let\oldenumerate\enumerate
+\renewcommand{\enumerate}{%
+    \oldenumerate%
+    \setlength{\itemsep}{0pt}%
+}
+
+\let\olditemize\itemize
+\renewcommand{\itemize}{%
+    \olditemize%
+    \setlength{\itemsep}{0pt}%
+}
+
+\let\olddescription\description
+\renewcommand{\description}{%
+    \olddescription%
+    \setlength{\itemsep}{0pt}%
+}
+
 % Remove section numbers
 \setcounter{secnumdepth}{0}
 
@@ -46,10 +65,10 @@
 %% TODO
 % Regular Languages
 % - DFA formalism
-% - Talk about NFA/DFA conversion,
-% - NFA/DFA closures even under closures
-% - Pumping lemma shortcuts
+% - Talk about NFA/DFA conversion
+% - NFA/DFA closures
 %   e.g. answer 'how do I reverse an NFA
+% - Pumping lemma shortcuts
 % -! DFA minimization
 % - DFA to RE-conversion
 %
@@ -62,8 +81,7 @@
 % - CFG -> PDA conversion 
 % 
 % Cardinality
-% - Schroder-Bernstein theorem
-% - Mapping multiple values of the same
+% (mostly done) Schroder-Bernstein theorem
 % - Cardinality using a paring function.
 %
 % Turing Machines
@@ -94,7 +112,6 @@ $h(L)$ & A homomorphism (a function that maps every input to
          a unique output) of $L$. \\
 $A \spbackslash B$ & Set difference of $A$ and $B$. 
                      $A - B$ is the same thing. \\
-$\langle M \rangle$ & String representation of Turing machine $M$. \\
 \end{tabular}
 $f : x_1, x_2, \ldots, x_n \to y_1, y_2, \ldots, y_n$ denotes
 a function $f$ that when given $x_1, \ldots, x_n$ as inputs
@@ -119,7 +136,6 @@ $q_0$           & A state in $Q$ that DFA starts execution from. \\
 $F \subseteq Q$ & A finite, possibly empty, set of accepting states.
 \end{tabular}
 
-\columnbreak
 \subsection{Closures}
 Where $R$ is a regular language, $L$ is `not regular', and $?$ is Unknown.
 
@@ -214,6 +230,16 @@ Note that the injective function doesn't require every item of $A$ to map
 to every item of $B$, only that every item of $A$ maps to \textit{an} item
 of $B$ (and vice versa).
 
+\section{Turing Machines}
+\subsection{Terminology and Notation}
+\begin{tabular}{rp{0.79\linewidth}}
+$\langle M \rangle$ & String representation of Turing machine $M$. \\
+halting & When a machine stops execution. \\
+acceptance & When a machine halts in a final state. \\
+rejection & When a machine halts and is not in a final state. \\
+
+\end{tabular}
+
 \section{Decidability}
 \subsection{Halting Problem}
 The halting problem states building a Turing machine $P$ that can detect
@@ -267,12 +293,38 @@ codes based on the languages recognized by these Turing machines
 is undecidable.''
 
 More formally, given a property $\mathcal{P}$, where $\mathcal{P}$ is
-non-trivial (not $\emptyset$ or $\Sigma^*$) the language:
+non-trivial (not $\emptyset$ or $\Sigma^*$) the language below is
+undecidable.
 \[
-    {\langle M \rangle | M \text{ is a Turing machine and } 
+    {\langle M \rangle \;|\; M \text{ is a Turing machine and } 
         \mathcal{P}(Lang(M))}
 \]
-Is undecidable.
+
+\section{NP-Completeness}
+\subsection{Problem Classes}
+\begin{description}
+    \item[{\small P:}] The set of problems that can be solved
+    in polynomial time. Contained in NP.
+    \item[{\small NP:}] The set of problems that can be solved
+    in non-deterministic polynomial time.
+    \item[{\small NP-hard:}] The set of problems that can be
+    polynomial time reduced to every other problem in NP.
+    \item[{\small NP-complete:}] The set of problems that are
+    in both NP, and NP-hard.
+\end{description}
+\subsection{Proving NP-Completeness}
+There are two steps to proving that a languages is in NP-complete.
+First you have to show that it is NP, and then you have to show that
+it is in NP-hard.
+
+\subsubsection{Verifiers}
+One way to show that a problem is in NP is by using a verifier. A verifier
+is a Turing machine $V_L$ such that for all $w \in \Sigma^*$, their exists
+some $c$ such that $w \in L$ when $V_L(w, c)$ accepts. Intuitively this can
+be understood as ``There is a machine that can check the answers to problems
+quickly''.
+
+\subsection{NP-hard Reduction}
 
 \end{multicols*}
 \end{document}
