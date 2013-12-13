@@ -53,11 +53,9 @@
 
 % Utility commands
 \newcommand{\spto}{\;\to\;}
+\newcommand{\spbar}{\;|\;}
 \newcommand{\spbackslash}{\;\backslash\;}
-\newcommand{\nquad}{\!\!\!\!\!\!}
 \newcommand{\impl}{\Rightarrow}
-
-\newcommand{\subheading}[1]{\textbf{#1} \vspace{3pt} \\}
 
 % temp length variable
 \newlength{\templength}
@@ -175,8 +173,9 @@ parse-trees.
 
 Example ambiguous grammar:
 \[
-    E \spto E + E \;|\; E * E \;|\; \texttt{NUMBER}
+    E \spto E + E \spbar E * E \spbar \texttt{NUMBER}
 \]
+% TODO: Needs graph example
 
 \subsection{Consistency and Completeness}
 \begin{description}
@@ -196,7 +195,7 @@ Is \textit{consistent} because it only generates strings in the language,
 but not complete because it doesn't generate all strings in the language.
 Likewise, the grammar:
 \[
-    S \spto aS \;|\; bS \;|\; \varepsilon 
+    S \spto aS \spbar bS \spbar \varepsilon 
     \;\;\quad (\textit{grammar for }\{a, b\}^*)
 \]
 Is complete, it generates all possible strings in the language, but not
@@ -287,7 +286,7 @@ More formally, given a property $\mathcal{P}$, where $\mathcal{P}$ is
 non-trivial (not $\emptyset$ or $\Sigma^*$) the language below is
 undecidable.
 \[
-    {\langle M \rangle \;|\; M \text{ is a Turing machine and } 
+    {\langle M \rangle \spbar M \text{ is a Turing machine and } 
         \mathcal{P}(Lang(M))}
 \]
 
