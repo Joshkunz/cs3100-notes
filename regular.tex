@@ -1,0 +1,52 @@
+% Regular Languages TODO
+% - NFA formalism
+% - Talk about NFA/DFA conversion
+% - NFA/DFA closures
+%   e.g. answer 'how do I reverse an NFA
+% - Pumping lemma shortcuts
+% -! DFA minimization
+%   - Brzozowski’s algorithm
+%   - Table-construction algorithm
+% - DFA to RE-conversion
+A regular language is any language that can be recognized with a DFA.
+Formally a DFA is a tuple $(Q,\Sigma,\delta,q_0,F)$. Where:
+
+\begin{tabular}{rp{0.79\linewidth}}
+$Q$             & A finite, non-empty set of states. \\
+$\Sigma$        & A finite, non-empty alphabet. \\
+$\delta$        & A function ($\delta : Q \times \Sigma \to Q$) that maps
+                  a state, and an input in $\Sigma$ to a new state. \\
+$q_0$           & A state in $Q$ that DFA starts execution from. \\
+$F \subseteq Q$ & A finite, possibly empty, set of accepting states.
+\end{tabular}
+Alternatively, regular languages can be defined by an NFA. Formally, NFAs are
+the same as DFAs, except the $\delta$ function for NFAs is defined as:
+\[
+    \delta : Q \times (\Sigma \cup \{\varepsilon\}) \spto 2^Q
+\]
+Where $2^Q$ represents the power-set of $Q$. Basically, the delta function can
+now map an input to multiple states instead of just one state.
+
+\subsection{Closures}
+Where $R$ is a regular language, $L$ is `not regular', and $?$ is Unknown.
+
+% Figure out the width of the third coulumn
+\settowidth{\templength}{$R \cap R \spto R$}
+\addtolength{\templength}{1cm}
+\begin{tabular}{lp{\templength}l}
+\textbf{Closed:}       &                    & \textbf{Unclosed:} \\
+$\overline{R} \spto R$ & $h(R) \spto R$     & $R \cap L \spto ?$ \\
+$R^* \spto R$          & $R \cup R \spto R$ & $R \cup L \spto ?$\\
+$R^R \spto R$          & $R \cap R \spto R$ & $L \cup L \spto ?$\\
+$RR \spto R$           & $R \spbackslash R \spto R$ & \\
+\end{tabular}
+
+\subsection{Pumping Lemma}
+\begin{align*}
+\exists N \in \mathbb{N}: & \\
+         \forall w \in L: &\; |w| \geq N \impl \\
+\exists xyz \in \Sigma^*: & \quad w = xyz \\
+                          & \land |xy| \leq N \\
+                          & \land y \neq \varepsilon \\
+                          & \land \forall i \geq 0: xy^iz \in L
+\end{align*}
