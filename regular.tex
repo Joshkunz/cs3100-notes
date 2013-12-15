@@ -14,7 +14,7 @@ the same as DFAs, except the $\delta$ function for NFAs is defined as:
 \[
     \delta : Q \times (\Sigma \cup \{\varepsilon\}) \spto 2^Q
 \]
-Where $2^Q$ represents the power-set of $Q$. Basically, the delta function can
+Basically, the delta function can
 now map an input to multiple states instead of just one state.
 
 \subsection{Closures}
@@ -41,21 +41,21 @@ $RR \spto R$           & $R \spbackslash R \spto R$ & \\
                           & \land y \neq \varepsilon \\
                           & \land \forall i \geq 0: xy^iz \in L
 \end{align*}
-\subsection{Operations}
+\subsection{DFA Operations}
 \begin{description}
-    \item[{\small DFA Negation:}] Mark all non-final states final and all final
+    \item[{\small Negation:}] Mark all non-final states final and all final
     states non-final.
 
-    \item[{\small DFA Reversal:}] Introduce a new initial state `$q_I$'. Add $\varepsilon$
+    \item[{\small Reversal:}] Introduce a new initial state `$q_I$'. Add $\varepsilon$
     transitions from this new state to all old final states and mark these states
     as non-final. Reverse all arrows in the DFA, and then mark the old initial
     state $q_0$ as final.
 
-    \item[{\small DFA Concatenation ($AB$):}] Add $\varepsilon$ transitions from
+    \item[{\small Concatenation ($AB$):}] Add $\varepsilon$ transitions from
     all of $A$'s final states to $B$'s initial state. Mark $A$'s final states
     as non-final.
 
-    \item[{\small DFA Union ($A \cup B$):}] Set the $Q$ parameter of the new
+    \item[{\small Union ($A \cup B$):}] Set the $Q$ parameter of the new
     DFA to $A$'s $Q$ crossed with $B$'s $Q$: $Q_{\text{new}} = A_Q \times B_Q$, 
     $Q$ will now contain pairs. Now change the $\delta$ function to be in terms 
     of both $A$'s delta function and $B$'s delta function: 
@@ -68,9 +68,22 @@ $RR \spto R$           & $R \spbackslash R \spto R$ & \\
     New states where \textbf{either} item in the pair were final states, become
     final.
     
-    \item[{\small DFA Intersection ($A \cap B$):}] Exactly the same as DFA union
+    \item[{\small Intersection ($A \cap B$):}] Exactly the same as DFA union
     except only pairs of states where \textbf{both} states in the pair are final
     become final states.
+\end{description}
+
+\subsection{NFA Operations}
+\begin{description}
+    \item[{\small Concatenation ($AB$):}] Concatenation for an NFA is exactly
+    like concatenation for a DFA.
+    \item[{\small Union ($A \cup B$):}] Introduce a new initial state $q_I$ and
+    add $\varepsilon$ transitions from $q_I$ to the initial states of $A$ and
+    $B$. Mark old initial states as no-longer initial.
+    \item[{\small Kleene-Star ($A^*$):}] First, add $\varepsilon$ transitions from
+    all final states to the initial state. Next, introduce a new initial state $q_I$,
+    make an $\varepsilon$ transition from this state to the old initial state,
+    and mark this new initial state as final. 
 \end{description}
 
 \subsection{Conversions}
@@ -100,6 +113,18 @@ via $\varepsilon$ transition.
     \textbf{States where any component state is final, are final.}
 \end{enumerate}
 \subsubsection{RE to NFA}
+The easiest way to build and NFA from a regular expression is incrementally. Start
+with an atom. In the regular expression: \verb|(a+b)*|, start with \verb|a|. An
+NFA for a single atom is simply an initial state and \verb|a| transition to a
+single final state. Once you have the initial NFAs you can simply apply the
+NFA operations on them. Expression \verb|ab| is the concatenation of the NFAs
+for \verb|a| and \verb|b|. Expression \verb|a+b| is the union of the NFAs for 
+\verb|a| and \verb|b|, and \verb|a*| is the Kleene-Star operation on the NFA for
+\verb|a|. These can be chained together. For example, the NFA for the first
+regular expression \verb|(a+b)*| the union of the NFAs for \verb|a| and \verb|b|
+and then the Kleene-Star of the union. Parentheses affect order of operations
+just like they do in arithmetic, evaluate the inside first then the outside.
+
 \subsubsection{DFA to RE}
 
 % -! DFA minimization
