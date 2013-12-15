@@ -51,7 +51,7 @@ $RR \spto R$           & $R \spbackslash R \spto R$ & \\
     as non-final. Reverse all arrows in the DFA, and then mark the old initial
     state $q_0$ as final.
 
-    \item[{\small DFA Concatenating ($AB$):}] Add $\varepsilon$ transitions from
+    \item[{\small DFA Concatenation ($AB$):}] Add $\varepsilon$ transitions from
     all of $A$'s final states to $B$'s initial state. Mark $A$'s final states
     as non-final.
 
@@ -69,12 +69,36 @@ $RR \spto R$           & $R \spbackslash R \spto R$ & \\
     final.
     
     \item[{\small DFA Intersection ($A \cap B$):}] Exactly the same as DFA union
-    except only pairs of state where \textbf{both} states in the pair are final
+    except only pairs of states where \textbf{both} states in the pair are final
     become final states.
 \end{description}
 
 \subsection{Conversions}
+\newcommand{\eclose}{\varepsilon\text{-closure}}
 \subsubsection{NFA to DFA}
+Assume a function $\eclose(x)$ that when given a set of states from the
+NFA as input returns the set of states that can be reached from these states
+via $\varepsilon$ transition.
+\begin{enumerate}
+    \item The initial state of the new DFA is $\eclose(\{q_0\})$, where $q_0$ is
+    the initial state of the NFA.
+    \item Next, form a table where the rows are the states in the DFA (to start
+    only write the initial state) and the columns are characters in $\Sigma$.
+    Now proceed down rows filling in the columns for each state using the following
+    equation. If the current state is $S$ and the column's symbol is $i$, the
+    the cell $S, i$ is:
+    \[
+        \delta(S, i) = \eclose\big(\bigcup_{s \in S} \delta(s, i)\big)
+    \]
+    In English, the $\eclose$ of the union of all states that can be reached 
+    from this DFA state's component NFA states on input $i$.
+
+    If the output state of the above function is not yet in the table, add it
+    as a new row and process it as normal.
+    \item Once this process is complete, you should be able to convert the
+    table into a standard graph by using the columns to make the transitions.
+    \textbf{States where any component state is final, are final.}
+\end{enumerate}
 \subsubsection{RE to NFA}
 \subsubsection{DFA to RE}
 
