@@ -1,0 +1,6 @@
+digraph dfa_re {
+    rankdir=LR;
+    A -> B [label="α"];
+    B -> B [label="γ"];
+    B -> C [label="β"];
+}

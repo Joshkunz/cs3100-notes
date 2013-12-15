@@ -126,6 +126,33 @@ and then the Kleene-Star of the union. Parentheses affect order of operations
 just like they do in arithmetic, evaluate the inside first then the outside.
 
 \subsubsection{DFA to RE}
+To start, introduce a new initial state $q_I$, and make a $\varepsilon$ transition
+from it, to the initial state of the DFA. Next, make a new final state $q_F$,
+make $\varepsilon$ transitions from the DFA's final states to $q_F$, then
+mark all old final states as non-final.
+
+Now, the general idea, is to delete a node, and then `fill in the gaps' with a
+rule. Once all nodes except the new $q_I$ and $q_F$ nodes have been deleted, the
+only edge will be between $q_I$ and $q_F$, that edge will be the regular expression.
+
+The algorithm goes like this, delete some node $S$, traverse all paths that
+go through node $S$, and replace them with a single edge from the origin to 
+the destination. The rules for what the edge is called are as follows:
+\begin{center}
+\includegraphics[trim=40 40 40 40,scale=0.6]{images/dfa_re_general}\\
+$\alpha\gamma^*\beta$
+\end{center}
+Which means, if we were to delete state $B$ above, the our new edge from $A$ to
+$C$ would be $\alpha\gamma^*\beta$. Note, if $\gamma$ is empty (there's no self loop)
+then it's just $\alpha\beta$.
+
+\begin{center}
+\includegraphics[trim=40 40 40 40,scale=0.6]{images/dfa_re_general2}\\
+$x+(\alpha\gamma^*\beta)$
+\end{center}
+Which means that if we delete state $B$ above, and an edge from $A$ to $C$ exists
+already, then the new edge is the union of both the general equation above,
+and the existing edge.
 
 % -! DFA minimization
 %   - Table-construction algorithm

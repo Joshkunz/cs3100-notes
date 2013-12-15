@@ -80,6 +80,7 @@ $h(L)$ & A homomorphism (a function that maps every input to
 $A \spbackslash B$ & Set difference of $A$ and $B$. 
                      $A - B$ is the same thing. \\
 $2^A$ & The power-set of set $A$. \\
+$\mathcal{L}(A)$ & The language of machine (CFG, PDA, DFA, TM, \ldots) $A$. \\
 \end{tabular}
 $f : x_1, x_2, \ldots, x_n \to y_1, y_2, \ldots, y_n$ denotes
 a function $f$ that when given $x_1, \ldots, x_n$ as inputs
@@ -174,7 +175,7 @@ For example, we can map $A_{TM}$ onto $Halt_{TM}$ using the following method:
 
 Assume that a decider $R$ for $A_{TM}$ exists. We will now construct
 a decider $S$ for $Halt_{TM}$ from $R$. $S$ has two inputs a machine $M$ and
-an input string $w$. First, $S$ will run decider $R$ on $\langle M, w$,
+an input string $w$. First, $S$ will run decider $R$ on $\langle M, w\rangle$,
 if $R$ accepts, then $S$ accepts. If $R$ rejects, then $S$ accepts. We
 now have a decider for $Halt_{TM}$ which is undecidable, a decider for
 $A_{TM}$ cannot exist.
@@ -188,8 +189,8 @@ More formally, given a property $\mathcal{P}$, where $\mathcal{P}$ is
 non-trivial (not $\emptyset$ or $\Sigma^*$) the language below is
 undecidable.
 \[
-    {\langle M \rangle \spbar M \text{ is a Turing machine and } 
-        \mathcal{P}(Lang(M))}
+    \{\langle M \rangle \spbar M \text{ is a Turing machine and } 
+        \mathcal{P}(\mathcal{L}(M))\}
 \]
 
 % NP-Completeness

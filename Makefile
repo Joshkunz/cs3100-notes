@@ -2,16 +2,21 @@
 
 # The file we want to view
 view = notes
+images = images
 
 texsrc = $(shell ls *.tex)
+dotsrc = $(shell ls *.dot)
+dotpdf = $(patsubst %.dot,$(images)/%.pdf,$(dotsrc))
 
 build: $(view).pdf open
 buildn: *.pdf
 
-%.pdf: %.dot
-	dot -Tpdf $*.dot > $*.pdf
+$(view).pdf: $(view).tex $(texsrc) $(dotpdf)
 
-%.pdf: %.tex $(texsrc)
+$(images)/%.pdf: %.dot
+	dot -Tpdf $*.dot > $(images)/$*.pdf
+
+%.pdf: %.tex
 	pdflatex $*.tex
 
 open: $(view).pdf
