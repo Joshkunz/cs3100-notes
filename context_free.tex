@@ -2,10 +2,6 @@
 % - CFL formalism
 % - RL and LL to NFA/DFA conversion
 %   - RL conversion via reversal closures
-% - Shortcuts for solving pumping lemmas
-% - Chompsky Normal form
-%   - Cocke-Kasami-Younger (CKY) parsing
-% - CFG -> PDA conversion 
 \subsection{Closures}
 Where $C$ is a context-free language, $R$ is a regular language, and $?$ is
 an Unknown language.
@@ -20,6 +16,7 @@ $CC \spto C$  & $C \cup R \spto R$ & $C \spbackslash C \spto ?$\\
 $h(C) \spto C$ & & \\
 \end{tabular}
 
+% - Shortcuts for solving pumping lemmas
 \subsection{Pumping Lemma}
 \begin{align*}
   \exists N \in \mathbb{N}: & \\
@@ -29,6 +26,11 @@ $h(C) \spto C$ & & \\
                             & \land |vxy| \leq N \\
                             & \land \forall i \geq 0: uv^ixy^iz \in L
 \end{align*}
+
+\subsection{CFG to PDA Conversion}
+
+\subsection{Chomsky Normal Form}
+\subsection{Cocke-Kasami-Younger (CKY) Parsing}
 
 \subsection{Ambiguous Context Free Languages}
 These are languages that have two separate parse-trees. To prove

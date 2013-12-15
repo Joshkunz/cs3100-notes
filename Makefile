@@ -3,13 +3,15 @@
 # The file we want to view
 view = notes
 
+texsrc = $(shell ls *.tex)
+
 build: $(view).pdf open
 buildn: *.pdf
 
 %.pdf: %.dot
 	dot -Tpdf $*.dot > $*.pdf
 
-%.pdf: %.tex
+%.pdf: %.tex $(texsrc)
 	pdflatex $*.tex
 
 open: $(view).pdf

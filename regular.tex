@@ -1,13 +1,3 @@
-% Regular Languages TODO
-% - NFA formalism
-% - Talk about NFA/DFA conversion
-% - NFA/DFA closures
-%   e.g. answer 'how do I reverse an NFA
-% - Pumping lemma shortcuts
-% -! DFA minimization
-%   - Brzozowski’s algorithm
-%   - Table-construction algorithm
-% - DFA to RE-conversion
 A regular language is any language that can be recognized with a DFA.
 Formally a DFA is a tuple $(Q,\Sigma,\delta,q_0,F)$. Where:
 
@@ -41,6 +31,7 @@ $R^R \spto R$          & $R \cap R \spto R$ & $L \cup L \spto ?$\\
 $RR \spto R$           & $R \spbackslash R \spto R$ & \\
 \end{tabular}
 
+% - Pumping lemma shortcuts
 \subsection{Pumping Lemma}
 \begin{align*}
 \exists N \in \mathbb{N}: & \\
@@ -50,3 +41,51 @@ $RR \spto R$           & $R \spbackslash R \spto R$ & \\
                           & \land y \neq \varepsilon \\
                           & \land \forall i \geq 0: xy^iz \in L
 \end{align*}
+\subsection{Operations}
+\begin{description}
+    \item[{\small DFA Negation:}] Mark all non-final states final and all final
+    states non-final.
+
+    \item[{\small DFA Reversal:}] Introduce a new initial state `$q_I$'. Add $\varepsilon$
+    transitions from this new state to all old final states and mark these states
+    as non-final. Reverse all arrows in the DFA, and then mark the old initial
+    state $q_0$ as final.
+
+    \item[{\small DFA Concatenating ($AB$):}] Add $\varepsilon$ transitions from
+    all of $A$'s final states to $B$'s initial state. Mark $A$'s final states
+    as non-final.
+
+    \item[{\small DFA Union ($A \cup B$):}] Set the $Q$ parameter of the new
+    DFA to $A$'s $Q$ crossed with $B$'s $Q$: $Q_{\text{new}} = A_Q \times B_Q$, 
+    $Q$ will now contain pairs. Now change the $\delta$ function to be in terms 
+    of both $A$'s delta function and $B$'s delta function: 
+    $\delta_{\text{new}} = f((q_A, q_B), s) \spto (\delta_A(q_A, s)\spc \delta_B(q_B, s))$.
+    That is to say, if $A$ had state $q0_A$ that went to state $q1_A$ on input 0,
+    and $B$ had state $q2_B$ that went to state $q3_B$ state on input 0, then
+    the new state $(q0_A, q2_B)$ would go to state $(q1_A, q3_B)$ on input 0.
+
+    The state that contains both DFA's initial state becomes the new initial state.
+    New states where \textbf{either} item in the pair were final states, become
+    final.
+    
+    \item[{\small DFA Intersection ($A \cap B$):}] Exactly the same as DFA union
+    except only pairs of state where \textbf{both} states in the pair are final
+    become final states.
+\end{description}
+
+\subsection{Conversions}
+\subsubsection{NFA to DFA}
+\subsubsection{RE to NFA}
+\subsubsection{DFA to RE}
+
+% -! DFA minimization
+%   - Table-construction algorithm
+\subsection{DFA Minimization}
+
+    \subsubsection{Table Conversion Algorithm}
+    \subsubsection{Brzozowski's Algorithm}
+    This algorithm is quite simple. The crux of it is that an NFA to DFA conversion
+    naturally results in a minimization of the NFA. So the algorithm is as-follows:
+    Take a DFA, reverse it to get an NFA, convert that NFA to a DFA again, take
+    this new reversed DFA and reverse it to get the original language back, then
+    convert the NFA resulting from the reversal into a DFA.

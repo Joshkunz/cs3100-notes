@@ -33,25 +33,26 @@
 \let\oldenumerate\enumerate
 \renewcommand{\enumerate}{%
     \oldenumerate%
-    \setlength{\itemsep}{0pt}%
+    \setlength{\itemsep}{-3pt}%
 }
 
 \let\olditemize\itemize
 \renewcommand{\itemize}{%
     \olditemize%
-    \setlength{\itemsep}{0pt}%
+    \setlength{\itemsep}{-3pt}%
 }
 
 \let\olddescription\description
 \renewcommand{\description}{%
     \olddescription%
-    \setlength{\itemsep}{0pt}%
+    \setlength{\itemsep}{-3pt}%
 }
 
 % Remove section numbers
 \setcounter{secnumdepth}{0}
 
 % Utility commands
+\newcommand{\spc}{,\;}
 \newcommand{\spto}{\;\to\;}
 \newcommand{\spbar}{\;|\;}
 \newcommand{\spbackslash}{\;\backslash\;}
@@ -95,7 +96,6 @@ yields $y_1, \ldots, y_n$ as outputs.
 \section{Context Free Languages}
 \input{context_free}
 
-
 % Cardinality
 % (mostly done) Schroder-Bernstein theorem
 \section{Cardinality}
@@ -110,11 +110,11 @@ of $B$ (and vice versa).
 \subsection{Pairing Functions}
 
 % Turing Machines
+\section{Turing Machines}
 % - TM formalism
 % - How to make a Turing machine 
 % - DTM / NDTMs
-% - Turing Machine terminology (acceptance, halting, rejection, deciders)
-\section{Turing Machines}
+
 \subsection{Terminology and Notation}
 \begin{tabular}{rp{0.71\linewidth}}
 $\langle M \rangle$ & String representation of Turing machine $M$. \\
@@ -129,8 +129,10 @@ decider & A decider is a Turing machine that defines a language
 \section{Post's Correspondence Problem}
 
 % Decidability
-% - Turning recognizable and recursively enumerable languages
 \section{Decidability}
+\subsection{Turing Recognizable \& Recursively Enumerable}
+Bang.
+
 \subsection{Halting Problem}
 The halting problem states building a Turing machine $P$ that can detect
 whether any other Turing machine will halt is impossible. The proof is as
@@ -191,9 +193,6 @@ undecidable.
 \]
 
 % NP-Completeness
-% - Definitions of P, NP, NP-complete, and NP-hard.
-% - Talk about Turing verifiers (For showing L is in NP)
-% - Talk about how to prove a language is NP-complete
 \section{NP-Completeness}
 \subsection{Problem Classes}
 \begin{description}
@@ -217,6 +216,10 @@ is a Turing machine $V_L$ such that for all $w \in \Sigma^*$, their exists
 some $c$ such that $w \in L$ when $V_L(w, c)$ accepts. Intuitively this can
 be understood as ``There is a machine that can check the answers to problems
 quickly''.
+
+\textbf{[NEEDS MORE]}
+
+\subsubsection{Deciders}
 
 \subsection{NP-hard Reduction}
 
