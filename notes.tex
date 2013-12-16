@@ -89,12 +89,6 @@ $\langof(A)$ & The language of machine (CFG, PDA, DFA, TM, \ldots) $A$. \\
 $f : x_1, x_2, \ldots, x_n \to y_1, y_2, \ldots, y_n$ denotes
 a function $f$ that when given $x_1, \ldots, x_n$ as inputs
 yields $y_1, \ldots, y_n$ as outputs.
-
-\section{Chomsky Hierarchy}
-\begin{center}
-    \includegraphics[width=0.6\linewidth]{images/chomsky-hierarchy}
-\end{center}
-
 \section{Regular Languages}
 \input{regular}
 
@@ -116,6 +110,9 @@ sets $s_1, s_2, \ldots s_n$ and putting an element in $s$ that does not exists i
 each set, this way, it cannot ever be equal to another set because it
 contains at least one element that is guaranteed to not be in that set.
 
+Note, this does not apply for non-infinite mappings. A finite number of infinite
+sets can be mapped to a single infinite set using a pairing function.
+
 \subsection{Schr\"{o}der-Bernstein Theorem}
 The Schr\"{o}der-Bernstein theorem states that, for any two sets $A$ and $B$
 if there exists an \textit{injective} function from $A \to B$, and
@@ -123,7 +120,6 @@ there exits an injective function from $B \to A$, then $|A| = |B|$.
 Note that the injective function doesn't require every item of $A$ to map
 to every item of $B$, only that every item of $A$ maps to \textit{an} item
 of $B$ (and vice versa).
-\subsection{Pairing Functions}
 
 % Turing Machines
 \section{Turing Machines}
@@ -297,6 +293,12 @@ time.
 The easiest way to show that a problem is in NP-hard, is by reducing an existing
 NP-hard problem to the problem you want to prove is NP-hard using a polynomial  
 mapping reduction. The classic problem to reduce from is 3-SAT.
+
+\section{Chomsky Hierarchy}
+Recursively Enumerable $\leftarrow$ 
+Context-Sensitive $\leftarrow$ 
+Context-Free $\leftarrow$ Regular.
+
 
 \end{multicols*}
 \end{document}
