@@ -1,7 +1,21 @@
 % Context-Free languages:
 % - CFL formalism
-% - RL and LL to NFA/DFA conversion
-%   - RL conversion via reversal closures
+A CFL can be represented in two ways, with a Context Free Grammar (CFG) and with 
+a Pushdown Automata (PDA). PDA's can be both deterministic and non-deterministic,
+but unlike DFAs, Deterministic PDAs cannot represent the full set of CFLs. However,
+any language that can be expressed as a DPDA is not inherently ambiguous.
+
+The Formalism for PDAs is $(Q, \Sigma, \Gamma, \delta, q_0, z_0, F)$. 
+It's basically the same as it is for DFAs with three changes. PDAs
+have a stack alphabet $\Gamma$ which $\Sigma$ is often a subset of, but not
+always. $z_0$ is the initial contents of the stack. The delta function is 
+also changed to:
+\[
+    \delta : Q \times (\Sigma \cup \{\varepsilon\}) \times \Gamma 
+    \to 2^{Q \times \Gamma^*}
+\]
+PDAs accept when either the stack becomes empty, or they reach a state in $F$.
+
 \subsection{Closures}
 Where $C$ is a context-free language, $R$ is a regular language, and $?$ is
 an Unknown language.
@@ -28,6 +42,27 @@ $h(C) \spto C$ & & \\
 \end{align*}
 
 \subsection{CFG to PDA Conversion}
+\begin{enumerate}
+    \item Create an initial state $q_0$ with an initial value $z_0$ on the stack.
+    \item Create a second state $q_M$. Add a transition when $z_0$ is on the
+    top of the stack from $q_0$ to $q_M$. Push $z_0S$ onto the stack in this
+    transition.
+    \item Create a third state $q_F$, mark this state as final. Add a transition
+    from $q_M$ to $q_F$ when $z_0$ is on the top of the stack.
+    \item Now, populate $q_M$.
+    \begin{itemize}
+        \item Add a transition from $q_M$ to $q_M$ when there is a terminal 
+        on top of the stack that matches the current input character.
+        \item When there exists a rule
+        $X \to R$ where $R$ can be a \textit{collection} of both terminals and
+        non-terminals, add a transition from $q_M$ to $q_M$ when $X$ is on
+        top of the stack that pushes $R$ onto the stack.
+    \end{itemize}
+\end{enumerate}
+
+% - RL and LL to NFA/DFA conversion
+%   - RL conversion via reversal closures
+\subsection{RL and LL Grammar to NFA Conversion}
 
 \subsection{Chomsky Normal Form}
 \subsection{Cocke-Kasami-Younger (CKY) Parsing}

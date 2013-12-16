@@ -114,13 +114,15 @@ via $\varepsilon$ transition.
 \end{enumerate}
 \subsubsection{RE to NFA}
 The easiest way to build and NFA from a regular expression is incrementally. Start
-with an atom. In the regular expression: \verb|(a+b)*|, start with \verb|a|. An
-NFA for a single atom is simply an initial state and \verb|a| transition to a
-single final state. Once you have the initial NFAs you can simply apply the
-NFA operations on them. Expression \verb|ab| is the concatenation of the NFAs
-for \verb|a| and \verb|b|. Expression \verb|a+b| is the union of the NFAs for 
-\verb|a| and \verb|b|, and \verb|a*| is the Kleene-Star operation on the NFA for
-\verb|a|. These can be chained together. For example, the NFA for the first
+with an atom. In the regular expression: \verb|(a+b)*|, start with \verb|a|. Here's
+how to build from there ($r^n$ is an NFA):
+\begin{tabular}{rp{0.79\linewidth}}
+a & Is an NFA with two states, an initial and a final. It transitions from initial
+    to final on input `a'. \\
+$r^1 + r^2$ & This is just the union of NFAs $r^1$ and $r^2$. \\
+$r^1*$ & This is just the Kleene-Star of NFA $r^1$. \\
+\end{tabular}
+For example, the NFA for the first
 regular expression \verb|(a+b)*| the union of the NFAs for \verb|a| and \verb|b|
 and then the Kleene-Star of the union. Parentheses affect order of operations
 just like they do in arithmetic, evaluate the inside first then the outside.

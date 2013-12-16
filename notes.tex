@@ -58,6 +58,9 @@
 \newcommand{\spbackslash}{\;\backslash\;}
 \newcommand{\impl}{\Rightarrow}
 
+\newcommand{\langof}{\mathcal{L}}
+\newcommand{\property}{\mathcal{P}}
+
 % temp length variable
 \newlength{\templength}
 
@@ -71,16 +74,17 @@
 
 \section{Notation}
 \begin{tabular}{rp{0.79\linewidth}}
-$\overline{L}$ & Negation of language $L$. \\
+$\overline{L}$, $L^c$ & Negation of language $L$. \\
 $L^R$ & The reversal of language $L$. \\
 $L^*$ & The Kleene-Star of $L$. \\
 $AB$ & The concatenation of language $A$ and $B$. \\
 $h(L)$ & A homomorphism (a function that maps every input to 
          a unique output) of $L$. \\
 $A \spbackslash B$ & Set difference of $A$ and $B$. 
-                     $A - B$ is the same thing. \\
+                     $A - B$ is the same thing. Equivalent to 
+                     $A \cap \overline{B}$.\\
 $2^A$ & The power-set of set $A$. \\
-$\mathcal{L}(A)$ & The language of machine (CFG, PDA, DFA, TM, \ldots) $A$. \\
+$\langof(A)$ & The language of machine (CFG, PDA, DFA, TM, \ldots) $A$. \\
 \end{tabular}
 $f : x_1, x_2, \ldots, x_n \to y_1, y_2, \ldots, y_n$ denotes
 a function $f$ that when given $x_1, \ldots, x_n$ as inputs
@@ -101,6 +105,17 @@ yields $y_1, \ldots, y_n$ as outputs.
 % (mostly done) Schroder-Bernstein theorem
 \section{Cardinality}
 \subsection{Diagonalization}
+Diagonalization is a general method for showing that the cardinality of
+two infinite sets is not the same. So say that we have two infinite sets $A$ and $B$,
+in this particular case, lets consider $B = 2^A$. Now, by definition $B$ can
+be expressed as a set of infinite sets. We can begin writing out these sets,
+$s_1, s_2, \ldots, s_n$. Diagonalization tells us that no matter how many
+of these sets we make, there will always exists another set $s$ that has not yet
+been expressed. This set $s$ is constructed by going through the list of created
+sets $s_1, s_2, \ldots s_n$ and putting an element in $s$ that does not exists in
+each set, this way, it cannot ever be equal to another set because it
+contains at least one element that is guaranteed to not be in that set.
+
 \subsection{Schr\"{o}der-Bernstein Theorem}
 The Schr\"{o}der-Bernstein theorem states that, for any two sets $A$ and $B$
 if there exists an \textit{injective} function from $A \to B$, and
@@ -126,13 +141,19 @@ decider & A decider is a Turing machine that defines a language
           of Turing machines that conform to a yes or no question. \\
 \end{tabular}
 
-% PCP problem
-\section{Post's Correspondence Problem}
-
 % Decidability
 \section{Decidability}
-\subsection{Turing Recognizable \& Recursively Enumerable}
-Bang.
+\subsection{Recognizable and Enumerable}
+\begin{description}
+    \item[{\small Turing Recognizable (TR):}] A language $L$ where there exists some
+    Turing machine $M$ that can recognize it.
+    \item[{\small Recursively Enumerable (RE):}] A language $L$ where all strings in
+    the language can be enumerated by some machine $M$.
+\end{description}
+
+Every language that is Turing Recognizable is also Recursively Enumerable since
+an enumerator can be built from a recognizer, and a recognizer can be built
+using an enumerator.
 
 \subsection{Halting Problem}
 The halting problem states building a Turing machine $P$ that can detect
@@ -152,6 +173,13 @@ to machine $Q$. $Q$ will then run $P(\langle Q, Q \rangle)$. If $P$
 accepts, then $Q$ will begin to loop, but $P$ said that $Q$ would
 halt. This is a contraction, a general $P$ decider for the halting problem
 cannot exist.
+
+This same proof style as above can be used to perform a proof for any decider
+from first principals. Just assume that the decider $P$ exists, generate a
+machine $Q$ that takes a machine as input, the runs that decider on
+the machine given itself as input $P(\langle M, M\rangle)$. Make machine $Q$
+return the opposite of whatever $P$ says, and then pass $Q$ to $Q$. $P$ will
+never be able to decide it.
 
 \subsection{Mapping Reduction}
 A mapping reduction between $A \subseteq \Sigma^*$ and 
@@ -185,13 +213,39 @@ $A_{TM}$ cannot exist.
 codes based on the languages recognized by these Turing machines 
 is undecidable.''
 
-More formally, given a property $\mathcal{P}$, where $\mathcal{P}$ is
+More formally, given a property $\property$, where $\property$ is
 non-trivial (not $\emptyset$ or $\Sigma^*$) the language below is
 undecidable.
 \[
     \{\langle M \rangle \spbar M \text{ is a Turing machine and } 
-        \mathcal{P}(\mathcal{L}(M))\}
+        \property(\langof(M))\}
 \]
+
+% PCP problem
+\section{Post's Correspondence Problem}
+Post's Correspondence Problem (PCP) is as follows. Say we have a finite set of
+tuples in the form: $\{\rangle x, y \langle | x, y \in \Sigma^*\}$. We can think
+of these tuples like a set of blocks with a top half and a bottom half, where
+the $x$ item is the top half and the $y$ item is the bottom half. Now to 
+solve the PCP, find an arrangement (with possible repetitions) where the
+string formed by the top blocks read left to right, is the same as the string
+formed by the bottom blocks read left to right.
+
+\subsection{Enumeration}
+The set of solvable instances of this problem can be generated quite easily.
+Make a machine that constantly generates two strings $w_x$ and $w_y$. A split
+of $w_x$ (or $w_y$) is a set of strings that when re-ordered and concatenated forms
+$w_x$ (or $w_y$). Now, make a set of all possible split of $w_x$ ($S_{w_x}$), and a set of
+splits for $w_y$ ($S_{w_y}$). Then, cross every split in $S_{w_x}$  with every split
+in $S_{w_y}$. Continue doing this for all possible strings 
+$w_x \in \Sigma^*$, $w_y \in \Sigma^*$ where $|w_x| = |w_y|$.
+
+\subsection{Decidability}
+In the case of $|\Sigma| > 2$, the PCP is undecidable. This can be shown via
+a mapping reduction that maps PCP into $A_{TM}$. The proof is rather involved, but
+at a high-level, possible states of a Turing machine are expressed as PCP
+pairs. A solution to the PCP problem containing these pairs is the \textit{execution
+history} of the TM that accepted the string.
 
 % NP-Completeness
 \section{NP-Completeness}
