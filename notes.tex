@@ -127,9 +127,24 @@ of $B$ (and vice versa).
 
 % Turing Machines
 \section{Turing Machines}
-% - TM formalism
-% - How to make a Turing machine 
-% - DTM / NDTMs
+Formaly a Turing machine is represented as tuple in the form 
+$(Q, \Sigma, \Gamma, \delta, q_0, B, F)$. $Q, \Sigma, q_0$, and $F$ are the same
+for PDAs and DFAs. $\Gamma$ is the tape alphabet, and since the input string
+is presented on the tape, $\Sigma \subset \Gamma$ is always the case. $B$ is
+the blank character. The $\delta$ is defined like so:
+\[
+    \delta : Q \times \Gamma \spto Q \times \Gamma \times \{L, R\}
+\]
+Which means the delta functions maps pairs of states an inputs, to a new state,
+a value to replace the current value on the tape, and \textit{movement}. $L$ moves
+the head left on the taps, and $R$ moves the head right on the tape. Since `staying-put'
+can be trivially simulated $S$ is sometimes included as a movement as well. TMs
+can also be non-deterministic, in that case the $\delta$ function changes to:
+\[
+    \delta : Q \times \Gamma \spto 2^{Q \times \Gamma \times \{L, R\}}
+\]
+Which allows it to be in multiple states at the same time, since it can transition
+to multiple states with a single input.
 
 \subsection{Terminology and Notation}
 \begin{tabular}{rp{0.71\linewidth}}
@@ -224,7 +239,7 @@ undecidable.
 % PCP problem
 \section{Post's Correspondence Problem}
 Post's Correspondence Problem (PCP) is as follows. Say we have a finite set of
-tuples in the form: $\{\rangle x, y \langle | x, y \in \Sigma^*\}$. We can think
+tuples in the form: $\{\langle x, y \rangle \spbar x, y \in \Sigma^*\}$. We can think
 of these tuples like a set of blocks with a top half and a bottom half, where
 the $x$ item is the top half and the $y$ item is the bottom half. Now to 
 solve the PCP, find an arrangement (with possible repetitions) where the
@@ -272,11 +287,16 @@ some $c$ such that $w \in L$ when $V_L(w, c)$ accepts. Intuitively this can
 be understood as ``There is a machine that can check the answers to problems
 quickly''.
 
-\textbf{[NEEDS MORE]}
-
-\subsubsection{Deciders}
+To give a concrete example, consider k-Clique. A verifier for k-Clique assumes
+that $w$ is some graph, and $c$ is a set of nodes in graph $w$ that forms
+a k-Clique. A machine that checks whether or not the set of nodes $c$ actually
+forms a k-Clique is trivial and can easily be performed in a finite amount of
+time.
 
 \subsection{NP-hard Reduction}
+The easiest way to show that a problem is in NP-hard, is by reducing an existing
+NP-hard problem to the problem you want to prove is NP-hard using a polynomial  
+mapping reduction. The classic problem to reduce from is 3-SAT.
 
 \end{multicols*}
 \end{document}

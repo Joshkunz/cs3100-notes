@@ -63,9 +63,34 @@ $h(C) \spto C$ & & \\
 % - RL and LL to NFA/DFA conversion
 %   - RL conversion via reversal closures
 \subsection{RL and LL Grammar to NFA Conversion}
+CFGs where every production only contains a single non-terminal on
+the right (RL), or CFGs where every production only contains a single
+non-terminal on the left (LL) can be directly converted to NFAs.
+We'll with RL grammars. If a grammar is right linear, then we know
+all the rules will be in the form $A \to tB$, or $A \to t$ where $t$ is
+a terminal. The states of the NFA will be all the non-terminals.  A rule
+like $A \to tB$ means that a transition from state $A$ to state $B$ on
+input $t$ exists. A rule in the form $A \to t$ means that $A$ goes to a new
+final state on input $t$.
 
-\subsection{Chomsky Normal Form}
+To convert LL grammars to NFAs, we can convert them to RL grammars and then
+to NFAs. A RL grammar can be obtained from a LL grammar by reversing it (reversing
+the order of all productions. $Bt$ becomes $tB$). This
+reversed RL can be converted to an NFA using the algorithm above. We can then
+apply the NFA reversal algorithm to obtain an NFA for the original language.
+
 \subsection{Cocke-Kasami-Younger (CKY) Parsing}
+CKY is an algorithm for checking if a string is accepted by a given
+CFG. For the CKY algorithm to be used, the CFG must be in Chomsky Normal form
+(All productions in the form $S \to AB$, and $A \to t$).
+
+The CKY algorithm helps you to build a binary parse-tree backwards. To start,
+write out the characters of the string you're going to parse, and the non-terminals
+that map to them above the characters. Then, in-between each non-terminal 
+figure out what production would generate those non-terminals. For example if you
+had a rule $S \to AB$, then you would write $S$ in-between non-terminal's $A$ and
+$B$. This should build a triangle shape. If the point of the triangle is $S$, then
+the string is accepted, if it's not $S$, then it didn't accept.
 
 \subsection{Ambiguous Context Free Languages}
 These are languages that have two separate parse-trees. To prove

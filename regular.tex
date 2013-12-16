@@ -161,6 +161,15 @@ and the existing edge.
 \subsection{DFA Minimization}
 
     \subsubsection{Table Conversion Algorithm}
+    Draw a table with all states of the DFA on both the $x$ and the $y$ axis.
+    Consider all input strings of length $0..n$. Start from a state $s$ on
+    the $x$ axis, if an input string of length $n$ reaches a state that is final,
+    and a state on the $y$ axis given the same input does not reach a final state
+    (or vice versa), then we know that those states are not equal, and their cell
+    can be marked off. Once a round of this goes by without any cells being
+    marked, then we know that the states corresponding to cells that
+    are not marked are equivalent.
+
     \subsubsection{Brzozowski's Algorithm}
     This algorithm is quite simple. The crux of it is that an NFA to DFA conversion
     naturally results in a minimization of the NFA. So the algorithm is as-follows:
