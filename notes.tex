@@ -22,11 +22,11 @@
 % quick reference sheet.
 \makeatletter
 \renewcommand{\section}{\@startsection{section}{1}{0pt}%
-                        {-1.3ex}{0.7ex}{\normalfont\large\bfseries}}
+                        {-.8ex}{0.6ex}{\normalfont\large\bfseries}}
 \renewcommand{\subsection}{\@startsection{subsection}{2}{0pt}%
-                           {-1.3ex}{0.7ex}{\normalfont\normalsize\bfseries}}
+                           {-.8ex}{0.6ex}{\normalfont\normalsize\bfseries}}
 \renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0pt}%
-                              {-1.3ex}{0.7ex}{\normalfont\small\bfseries}}
+                              {-.8ex}{0.6ex}{\normalfont\small\bfseries}}
 \makeatother
 
 % Tighten-Up lists
@@ -75,6 +75,7 @@
 \section{Notation}
 \begin{tabular}{rp{0.79\linewidth}}
 $\overline{L}$, $L^c$ & Negation of language $L$. \\
+$L^n$ & Concatenation $n$ times. $L^n = LL^{n -1}$. \\
 $L^R$ & The reversal of language $L$. \\
 $L^*$ & The Kleene-Star of $L$. \\
 $AB$ & The concatenation of language $A$ and $B$. \\
@@ -89,8 +90,16 @@ $\langof(A)$ & The language of machine (CFG, PDA, DFA, TM, \ldots) $A$. \\
 $f : x_1, x_2, \ldots, x_n \to y_1, y_2, \ldots, y_n$ denotes
 a function $f$ that when given $x_1, \ldots, x_n$ as inputs
 yields $y_1, \ldots, y_n$ as outputs.
+
 \section{Regular Languages}
 \input{regular}
+
+\section{Chomsky Hierarchy}
+Turing Recognizable and non-TR (disjoint) $\leftarrow$
+Recursive $\leftarrow$ 
+Context-Sensitive $\{a^nb^nc^n \spbar n \in \mathbb{N}\}$ $\leftarrow$ 
+Context-Free $\{a^nb^n \spbar n \in \mathbb{N}\}$ $\leftarrow$ 
+Regular `\verb|(ab)*|'.
 
 \section{Context Free Languages}
 \input{context_free}
@@ -118,12 +127,12 @@ The Schr\"{o}der-Bernstein theorem states that, for any two sets $A$ and $B$
 if there exists an \textit{injective} function from $A \to B$, and
 there exits an injective function from $B \to A$, then $|A| = |B|$.
 Note that the injective function doesn't require every item of $A$ to map
-to every item of $B$, only that every item of $A$ maps to \textit{an} item
+to every item of $B$, only that every item of $A$ maps to \textit{a unique} item
 of $B$ (and vice versa).
 
 % Turing Machines
 \section{Turing Machines}
-Formaly a Turing machine is represented as tuple in the form 
+Formally a Turing machine is represented as tuple in the form 
 $(Q, \Sigma, \Gamma, \delta, q_0, B, F)$. $Q, \Sigma, q_0$, and $F$ are the same
 for PDAs and DFAs. $\Gamma$ is the tape alphabet, and since the input string
 is presented on the tape, $\Sigma \subset \Gamma$ is always the case. $B$ is
@@ -157,9 +166,11 @@ decider & A decider is a Turing machine that defines a language
 \subsection{Recognizable and Enumerable}
 \begin{description}
     \item[{\small Turing Recognizable (TR):}] A language $L$ where there exists some
-    Turing machine $M$ that can recognize it.
+    Turing machine $M$ that can, given $w$, recognize $w \in L$.
     \item[{\small Recursively Enumerable (RE):}] A language $L$ where all strings in
     the language can be enumerated by some machine $M$.
+    \item[{\small Recursive (Decidable):}] A language $L$ where both $L$ and $\overline{L}$
+    are Recursively Enumerable.
 \end{description}
 
 Every language that is Turing Recognizable is also Recursively Enumerable since
@@ -182,10 +193,10 @@ accepts (says that $M$ halts) the $Q$ will loop. If $P$ rejects
 (says $M$ will loop) then $Q$ halts. Now, we can supply $Q$ as input
 to machine $Q$. $Q$ will then run $P(\langle Q, Q \rangle)$. If $P$
 accepts, then $Q$ will begin to loop, but $P$ said that $Q$ would
-halt. This is a contraction, a general $P$ decider for the halting problem
+halt. This is a contradiction, a general $P$ decider for the halting problem
 cannot exist.
 
-This same proof style as above can be used to perform a proof for any decider
+This same proof style as above can be used to perform a proof for any decider (like $A_{TM}$)
 from first principals. Just assume that the decider $P$ exists, generate a
 machine $Q$ that takes a machine as input, the runs that decider on
 the machine given itself as input $P(\langle M, M\rangle)$. Make machine $Q$
@@ -195,9 +206,14 @@ never be able to decide it.
 \subsection{Mapping Reduction}
 A mapping reduction between $A \subseteq \Sigma^*$ and 
 $B \subseteq \Sigma^*$ is a function $f : \Sigma^* \to \Sigma^*$ if
-$\forall x \in \Sigma^*, x \in A \Leftrightarrow f(x) \in B$. More plainly,
+$\forall x \in \Sigma^*, x \in A \Leftrightarrow f(x) \in B$. 
+
+\textbf{More plainly,
 a function $f$ such that I can pick any $x$ in $A$, and $f(x)$ will also
-be in $B$. The ``mapping reduction from $A$ to $B$'' is typically denoted
+be in $B$}. \textit{Note:} This mapping function $f$ merely has to map
+every item in $A$ to \textit{an} item in $B$, not necessarily a unique item.
+
+The ``mapping reduction from $A$ to $B$'' is typically denoted
 as $A \leq_m B$. A mapping reduction in polynomial time is denoted
 $A \leq_p B$.
 
@@ -205,7 +221,7 @@ The general steps for a mapping reduction $A \leq_m B$ are as follows:
 \begin{enumerate}
     \item $A$ is designated the ``known undecidable'' language.
     \item $B$ is designated the ``unknown'' language.
-    \item Create a function $f$ that maps all elements of $A$ into $B$.
+    \item Create a function $f$ that maps all elements of $A$ into $B$. 
 \end{enumerate}
 
 To form $f$ you usually assume the decider for $B$ ($D_B$), then you construct
@@ -268,8 +284,10 @@ history} of the TM that accepted the string.
     in non-deterministic polynomial time.
     \item[{\small NP-hard:}] The set of problems that can be
     polynomial time reduced to every other problem in NP.
-    \item[{\small NP-complete:}] The set of problems that are
+    \item[{\small NP-complete (NPC):}] The set of problems that are
     in both NP, and NP-hard.
+    \item[{\small co-\textit{X}:}] A language $L$ is co-NP, or co-NPC when $\overline{L}$ 
+    is in NP, or NP-complete respectively.
 \end{description}
 \subsection{Proving NP-Completeness}
 There are two steps to proving that a languages is in NP-complete.
@@ -293,11 +311,6 @@ time.
 The easiest way to show that a problem is in NP-hard, is by reducing an existing
 NP-hard problem to the problem you want to prove is NP-hard using a polynomial  
 mapping reduction. The classic problem to reduce from is 3-SAT.
-
-\section{Chomsky Hierarchy}
-Recursively Enumerable $\leftarrow$ 
-Context-Sensitive $\leftarrow$ 
-Context-Free $\leftarrow$ Regular.
 
 
 \end{multicols*}
