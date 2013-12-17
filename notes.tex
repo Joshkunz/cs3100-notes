@@ -282,12 +282,13 @@ history} of the TM that accepted the string.
     in polynomial time. Contained in NP.
     \item[{\small NP:}] The set of problems that can be solved
     in non-deterministic polynomial time.
+    \item[{\small co-NP:}] A language $L$ is co-NP when $\overline{L} \in \text{NP}$.
     \item[{\small NP-hard:}] The set of problems that can be
     polynomial time reduced to every other problem in NP.
     \item[{\small NP-complete (NPC):}] The set of problems that are
     in both NP, and NP-hard.
-    \item[{\small co-\textit{X}:}] A language $L$ is co-NP, or co-NPC when $\overline{L}$ 
-    is in NP, or NP-complete respectively.
+    \item[{\small co-NPC:}] A language $L$ is co-NPC when 
+    $\overline{L}~\in~\text{NP-complete}$.
 \end{description}
 \subsection{Proving NP-Completeness}
 There are two steps to proving that a languages is in NP-complete.
